@@ -55,7 +55,7 @@ public class PolynomialDialog implements GLEventListener {
 
         JDialog frame = new JDialog();
         frame.getContentPane().add(canvas);
-        frame.setSize(400, 400);
+        frame.setSize(500, 500);
         frame.setTitle(p.getFunc().toString());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -64,30 +64,44 @@ public class PolynomialDialog implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        // TODO Auto-generated method stub
-
-        /*
-        GL2 gl = drawable.getGL().getGL2();
-
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glColor3f(1.0f, 1.0f, 1.0f);
-
-        int patterns[] = { 0x00FF, 0x00FF, 0x0C0F, 0x0C0F, 0xAAAA, 0xAAAA, 0xAAAA, 0xAAAA };
-        int factors[] = { 1, 2, 1, 3, 1, 2, 3, 4 };
         
+        GL2 gl = drawable.getGL().getGL2();
+        
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glEnable(GL2.GL_LINE);
+        
+        gl.glColor3f(0.58f, 0.58f, 0.58f);
         gl.glLineWidth(1f);
-        gl.glEnable(GL2.GL_LINE_STIPPLE);
-        double f = -0.9;
-        for(int i = 0; i < patterns.length; i++, f += 0.2) {
-            gl.glLineStipple(factors[i], (short)patterns[i]);
-            gl.glBegin(GL.GL_LINES);
-            gl.glVertex2f(-1f, (float) f);
-            gl.glVertex2f(1f, (float) f);
+        
+        gl.glBegin(GL2.GL_LINES);
+            gl.glVertex2d(left, 0);
+            gl.glVertex2d(right, 0);
+            gl.glVertex2d(0, bottom);
+            gl.glVertex2d(0, top);
+        gl.glEnd();
+        
+        for(double x = left; x <= right; x++) {
+            gl.glBegin(GL2.GL_LINES);
+                gl.glVertex2d(x, 0.25);
+                gl.glVertex2d(x, -0.25);
             gl.glEnd();
         }
-
+        for(double y = bottom; y <= top; y++) {
+            gl.glBegin(GL2.GL_LINES);
+                gl.glVertex2d(-0.25, y);
+                gl.glVertex2d(0.25, y);
+            gl.glEnd();
+        }
+        
+        gl.glColor3f(0f, 0f, 0f);
+        gl.glLineWidth(1.25f);
+        gl.glBegin(GL2.GL_LINE_LOOP);
+        for(double x = left; x <= right; x += 0.05) {
+            gl.glVertex2d(x, this.p.getFunc().value(x));
+        }
+        gl.glEnd();
+        
         gl.glFlush();
-        */
     }
 
     @Override
@@ -102,7 +116,8 @@ public class PolynomialDialog implements GLEventListener {
 
         GL2 gl = drawable.getGL().getGL2();
 
-        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 1f);
+        //gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         gl.glMatrixMode(GL2.GL_MATRIX_MODE);
         gl.glLoadIdentity();
 

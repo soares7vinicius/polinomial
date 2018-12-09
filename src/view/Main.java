@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
+import controller.PolynomialDialog;
+import java.awt.Color;
 import javax.swing.JDialog;
 import model.Polynomial;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.math3.complex.Complex;
 
-/**
- *
- * @author vinicius
- */
 public class Main extends javax.swing.JFrame {
 
     private double left, right, bottom, top;
@@ -25,6 +22,17 @@ public class Main extends javax.swing.JFrame {
         
         initComponents();
  
+    }
+    
+    private void getPolynomial() throws Exception {
+        String[] s = this.coefFld.getText().split(" ");
+        double[] coef = Arrays.stream(s).mapToDouble(Double::parseDouble).toArray();
+        this.p = new Polynomial(coef);
+        
+        this.right = Double.parseDouble(this.rightFld.getText());
+        this.left = Double.parseDouble(this.leftFld.getText());
+        this.top = Double.parseDouble(this.topFld.getText());
+        this.bottom = Double.parseDouble(this.bottomFld.getText());
     }
 
     /**
@@ -44,6 +52,7 @@ public class Main extends javax.swing.JFrame {
         plotBtn = new javax.swing.JButton();
         calcBtn = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        errorLbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -56,6 +65,10 @@ public class Main extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        expFld = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        rootsFld = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         aboutMenu = new javax.swing.JMenu();
 
@@ -65,7 +78,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setBorder(null);
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         jLabel2.setText("Digite os coeficientes separados por espaço.");
@@ -86,11 +99,23 @@ public class Main extends javax.swing.JFrame {
         });
 
         plotBtn.setText("Visualizar");
+        plotBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotBtnActionPerformed(evt);
+            }
+        });
 
         calcBtn.setText("Calcular");
+        calcBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcBtnActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel4.setText("Polinômio");
+
+        errorLbl.setForeground(javax.swing.UIManager.getDefaults().getColor("nb.errorForeground"));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -105,34 +130,37 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(calcBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(helpLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(helpLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(errorLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(errorLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(helpLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(coefFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(plotBtn)
                     .addComponent(calcBtn))
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBorder(null);
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel1.setText("Limites do plano");
@@ -229,6 +257,13 @@ public class Main extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         jLabel9.setText("Raízes");
 
+        expFld.setEditable(false);
+        jScrollPane2.setViewportView(expFld);
+
+        rootsFld.setEditable(false);
+        rootsFld.setContentType("text/html"); // NOI18N
+        jScrollPane3.setViewportView(rootsFld);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -236,21 +271,37 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addGap(33, 33, 33)
-                .addComponent(jLabel9)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel9)
+                        .addGap(0, 85, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane3)))
+                .addContainerGap())
         );
 
         aboutMenu.setText("Sobre");
@@ -285,8 +336,8 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -316,6 +367,44 @@ public class Main extends javax.swing.JFrame {
     private void aboutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_aboutMenuActionPerformed
+
+    private void plotBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotBtnActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.errorLbl.setText("");
+            this.getPolynomial();
+            
+            PolynomialDialog.showDialog(p, left, right, bottom, top);
+            
+        } catch (Exception ex) {
+            this.errorLbl.setForeground(Color.red);
+            this.errorLbl.setText("Entrada inválida ou vazia!");
+            //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_plotBtnActionPerformed
+
+    private void calcBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBtnActionPerformed
+        // TODO add your handling code here:
+         try {
+            // TODO add your handling code here:
+            this.errorLbl.setText("");
+            this.getPolynomial();
+            
+            this.expFld.setText(this.p.getFunc().toString());
+            
+            String s = "<html>";
+            for(Complex c : this.p.solve(left)) {
+                s += c.getReal() + " + " + c.getImaginary() + "<i>i<i><br>";
+            }
+            s += "</html>";
+            this.rootsFld.setText(s);
+            
+        } catch (Exception ex) {
+            this.errorLbl.setForeground(Color.red);
+            this.errorLbl.setText("Entrada inválida ou vazia!");
+            //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_calcBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,6 +443,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField bottomFld;
     private javax.swing.JButton calcBtn;
     private javax.swing.JTextField coefFld;
+    private javax.swing.JLabel errorLbl;
+    private javax.swing.JTextPane expFld;
     private javax.swing.JLabel helpLbl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -368,9 +459,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JFormattedTextField leftFld;
     private javax.swing.JButton plotBtn;
     private javax.swing.JFormattedTextField rightFld;
+    private javax.swing.JTextPane rootsFld;
     private javax.swing.JFormattedTextField topFld;
     // End of variables declaration//GEN-END:variables
 }

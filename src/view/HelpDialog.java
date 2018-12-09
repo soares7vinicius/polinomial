@@ -28,18 +28,32 @@ public class HelpDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ajuda");
+
+        jTextPane1.setEditable(false);
+        jTextPane1.setContentType("text/html"); // NOI18N
+        jTextPane1.setText("<html>\n  <head>\n  </head>\n  <body>\n<p>Insira os coeficientes divididos por espaço do menor para o maior grau.<br>\nPor exemplo, considere os seguintes polinômios e suas respectivas entradas:</p>\n<br>\n<p>\n<strong>Polinômio:</strong>  2x² + 5x + 1<br>\n<strong>Entrada:</strong> 1 5 2\n</p>\n<p>\n<strong>Polinômio:</strong>  1 + 5x + 2x²<br>\n<strong>Entrada:</strong> 1 5 2\n</p>\n<p>\n<strong>Polinômio:</strong>  x³ + 4x² + 2<br>\n<strong>Entrada:</strong> 2 0 4 1\n</p>\n<p>\n<strong>Polinômio:</strong>  2 + 4x² + x³<br>\n<strong>Entrada:</strong> 2 0 4 1\n</p>\n  </body>\n</html>\n");
+        jScrollPane1.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -88,5 +102,7 @@ public class HelpDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
