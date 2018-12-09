@@ -7,16 +7,18 @@ import org.apache.commons.math3.complex.Complex;
 public class Polynomial {
     private static LaguerreSolver SOLVER = new LaguerreSolver();
     
-    public PolynomialFunction func;
-    public Complex[] roots;
+    private PolynomialFunction func;
 
-    public Polynomial(PolynomialFunction func, Complex[] roots) {
-        this.func = func;
-        this.roots = roots;
+    public Polynomial(double[] coefs) {
+        this.func = new PolynomialFunction(coefs);
     }
     
-    public void solve(double initial){
-        this.roots = SOLVER.solveAllComplex(func.getCoefficients(), initial);
+    public Complex[] solve(double initial){
+        return SOLVER.solveAllComplex(func.getCoefficients(), initial);
+    }
+
+    public PolynomialFunction getFunc() {
+        return func;
     }
     
 }

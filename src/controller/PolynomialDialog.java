@@ -11,9 +11,24 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
+import javax.swing.JDialog;
+
+import model.Polynomial;
 
 public class PolynomialDialog implements GLEventListener {
+    
+    private Polynomial p;
+    private double left, right, bottom, top;
 
+    public PolynomialDialog(Polynomial p, double left, double right, double bottom, double top) {
+        this.p = p;
+        this.left = left;
+        this.right = right;
+        this.bottom = bottom;
+        this.top = top;
+    }
+
+    /*
     public static void main(String[] args) {
         GLProfile profile = GLProfile.get(GLProfile.GL2);
 
@@ -22,28 +37,36 @@ public class PolynomialDialog implements GLEventListener {
         GLCanvas canvas = new GLCanvas(capabilities);
         canvas.addGLEventListener(new PolynomialDialog());
 
-        JFrame frame = new JFrame("Linhas");
+        JFrame frame = new JFrame("");
         frame.getContentPane().add(canvas);
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+    */
     
-    public GLJPanel panel() {
+    public static void showDialog(Polynomial p, double left, double right, double bottom, double top) {
         GLProfile profile = GLProfile.get(GLProfile.GL2);
 
         GLCapabilities capabilities = new GLCapabilities(profile);
 
-        GLJPanel panel = new GLJPanel(capabilities);
-        panel.addGLEventListener(new PolynomialDialog());
-        
-        return panel;
+        GLCanvas canvas = new GLCanvas(capabilities);
+        canvas.addGLEventListener(new PolynomialDialog(p, left, right, bottom, top));
+
+        JDialog frame = new JDialog();
+        frame.getContentPane().add(canvas);
+        frame.setSize(400, 400);
+        frame.setTitle(p.getFunc().toString());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         // TODO Auto-generated method stub
 
+        /*
         GL2 gl = drawable.getGL().getGL2();
 
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -64,6 +87,7 @@ public class PolynomialDialog implements GLEventListener {
         }
 
         gl.glFlush();
+        */
     }
 
     @Override
@@ -78,12 +102,12 @@ public class PolynomialDialog implements GLEventListener {
 
         GL2 gl = drawable.getGL().getGL2();
 
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         gl.glMatrixMode(GL2.GL_MATRIX_MODE);
         gl.glLoadIdentity();
 
         GLU glu = new GLU();
-        //glu.gluOrtho2D(0.0, 200.0, 0.0, 150.0);
+        glu.gluOrtho2D(this.left, this.right, this.bottom, this.top);
     }
 
     @Override
